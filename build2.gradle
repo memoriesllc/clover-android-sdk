@@ -23,23 +23,3 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21"
     }
 }
-
-// Task to build android-build if it exists
-tasks.register('buildAndroidBuildIfExists') {
-    doLast {
-        def androidBuildDir = file("$rootDir/../android-build")
-        if (androidBuildDir.exists()) {
-            println "Building android-build project at: ${androidBuildDir.absolutePath}"
-            exec {
-                workingDir androidBuildDir
-                if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
-                    commandLine 'cmd', '/c', 'gradlew.bat', 'build'
-                } else {
-                    commandLine './gradlew', 'build'
-                }
-            }
-        } else {
-            println "android-build directory not found at: ${androidBuildDir.absolutePath}"
-        }
-    }
-}
